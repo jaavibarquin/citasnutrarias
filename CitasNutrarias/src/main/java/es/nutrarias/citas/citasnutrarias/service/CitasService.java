@@ -15,19 +15,30 @@ public class CitasService {
 	@Autowired
 	private CitasRepository repository;
 
-
-	public List<Cita> citasLibresPorAreaYDia(AreaCita area, String dia) {
-		return repository.findByAreaAndFechaAndEmailIsNull(area, dia);
+	// Libres
+	public List<Cita> citasLibresPorAreaYFecha(AreaCita area, String fecha) {
+		return repository.findByAreaAndFechaAndDisponibleTrue(area, fecha);
 	}
 
-
 	public List<Cita> citasLibresPorArea(AreaCita area) {
+		return repository.findByAreaAndDisponibleTrue(area);
+	}
+	
+	// Globales
+	public Cita citaPorAreaDiaYHora(AreaCita area, String fecha, String hora) {
+		return repository.findByAreaAndFechaAndHora(area, fecha, hora);
+	}
+	
+	public List<Cita> citasPorAreaYFecha(AreaCita area, String fecha){
+		return repository.findByAreaAndFecha(area, fecha);
+	}
+	
+	public List<Cita> citasPorArea(AreaCita area) {
 		return repository.findByArea(area);
 	}
 
-
 	public Cita citaPorId(String id) {
-		return repository.findById(id).get();
+		return repository.findById(id).orElse(null);
 	}
 
 
@@ -36,14 +47,16 @@ public class CitasService {
 	}
 
 
-	public Cita citaPorTelefono(String telefono) {
-		return repository.findByTelefono(telefono);
-	}
+//	public List<Cita> citaPorIdCliente(String telefono) {
+//		return repository.findByTelefono(telefono);
+//	}
 
 
 	public Cita modificaCita(Cita cita) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.save(cita);
 	}
+	
+
+	
 
 }

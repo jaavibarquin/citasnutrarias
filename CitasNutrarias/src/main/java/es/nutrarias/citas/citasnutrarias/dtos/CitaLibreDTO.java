@@ -1,35 +1,28 @@
-package es.nutrarias.citas.citasnutrarias.entities;
-
+package es.nutrarias.citas.citasnutrarias.dtos;
 
 import java.time.LocalDateTime;
 
+import es.nutrarias.citas.citasnutrarias.entities.Cita;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+public class CitaLibreDTO {
 
-import javax.persistence.Table;
-
-
-
-@Entity
-@Table(name="citas")
-public class Cita {
-	
-	@Id
 	private String idcita;
 	private LocalDateTime fullfecha;
 	private String fecha;
 	private String hora;
-	@Enumerated(EnumType.STRING)
-	private AreaCita area;
-	@Embedded
-	private Cliente cliente;
+	private String area;
 	private boolean disponible;
 	
-	public Cita() {}
+	public CitaLibreDTO() {}
+	
+	public CitaLibreDTO(Cita c) {
+		this.idcita = c.getIdcita();
+		this.fullfecha = c.getFullfecha();
+		this.fecha = c.getFecha();
+		this.hora = c.getHora();
+		this.area = c.getArea().toString();
+		this.disponible = c.isDisponible();
+	}
 
 	public String getIdcita() {
 		return idcita;
@@ -47,8 +40,12 @@ public class Cita {
 		return hora;
 	}
 
-	public AreaCita getArea() {
+	public String getArea() {
 		return area;
+	}
+
+	public boolean isDisponible() {
+		return disponible;
 	}
 
 	public void setIdcita(String idcita) {
@@ -67,25 +64,12 @@ public class Cita {
 		this.hora = hora;
 	}
 
-	public void setArea(AreaCita area) {
+	public void setArea(String area) {
 		this.area = area;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public boolean isDisponible() {
-		return disponible;
 	}
 
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
 	}
-	
 
 }
