@@ -111,12 +111,12 @@ public class CitaDTO {
 	
 	public Cita transformToCita() {
 		Cita cita = new Cita();
-		cita.setIdcita(idcita);
-		cita.setFullfecha(fullfecha);
-		cita.setFecha(fecha);
-		cita.setHora(hora);
-		cita.setArea(AreaCita.getArea(area));
-		Cliente cli = new Cliente(email, nombre, apellidos, telefono);
+		cita.setIdcita(this.idcita);
+		cita.setFullfecha(this.fullfecha);
+		cita.setFecha(this.fecha);
+		cita.setHora(this.hora);
+		cita.setArea(AreaCita.getArea(this.area));
+		Cliente cli = new Cliente(this.email, this.nombre, this.apellidos, this.telefono);
 		cita.setCliente(cli);
 		return cita;
 	}
