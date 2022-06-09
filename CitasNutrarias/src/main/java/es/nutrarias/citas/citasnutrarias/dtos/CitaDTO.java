@@ -22,7 +22,7 @@ public class CitaDTO {
 		this.idcita = c.getIdcita();
 		this.fullfecha = c.getFullfecha();
 		this.fecha = c.getFecha();
-		this.hora = c.getHora();
+		this.hora = c.getHora().substring(0, 5);
 		this.area = c.getArea();
 		this.cliente = c.getCliente();
 		this.disponible = c.isDisponible();

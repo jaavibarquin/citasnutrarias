@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +27,7 @@ import es.nutrarias.citas.citasnutrarias.entities.Cliente;
 import es.nutrarias.citas.citasnutrarias.service.CitasService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/nutrarias")
 public class CitasController {
 
@@ -68,6 +70,7 @@ public class CitasController {
 		return ResponseEntity.notFound().build();
 	}
 
+
 	@GetMapping("/citas/{area}/libres")
 	public ResponseEntity<List<CitaLibreDTO>> getCitasAreaLibres(@PathVariable AreaCita area, @RequestParam(required = false) String fecha) {
 		if (!compruebaArea(area)) {
@@ -85,6 +88,7 @@ public class CitasController {
 		return ResponseEntity.notFound().build();
 
 	}
+	
 	@GetMapping("/citas/{area}/{fecha}/{hora}")
 	public ResponseEntity<CitaDTO> getCitaByFecha(@PathVariable AreaCita area, @PathVariable String fecha, @PathVariable String hora){
 		Cita cita = citasService.citaPorAreaDiaYHora(area, fecha, hora);
@@ -94,7 +98,7 @@ public class CitasController {
 		}
 		return ResponseEntity.notFound().build();
 	}
-
+	
 	@PutMapping("/citas/{area}/{fecha}/{hora}")
 	public ResponseEntity<CitaDTO> modificaCitaByFecha(@PathVariable AreaCita area, @PathVariable String fecha, @PathVariable String hora, @RequestBody CitaDTO citaDTO){
 		if (citaDTO == null) {
