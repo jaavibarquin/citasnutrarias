@@ -166,7 +166,7 @@ public class CitasController {
 	@PutMapping("/clientes/{idCliente}")
 	public ResponseEntity<Cliente> guardaCliente(@PathVariable String idCliente, @RequestBody Cliente cliente) 
 	{
-		if (idCliente.isEmpty() || idCliente.equals(null) || cliente == null) {
+		if (idCliente.isEmpty() || cliente == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cliente);
 		}
 		Cliente cli = citasService.buscaCliente(idCliente);

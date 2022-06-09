@@ -72,6 +72,9 @@ public class CitasService {
 
 	// Cliente
 	public Cliente buscaCliente(String idCliente) {
+		if (idCliente == null) {
+			return null;
+		}
 		return clientesRepo.findById(idCliente).orElse(null);
 	}
 
