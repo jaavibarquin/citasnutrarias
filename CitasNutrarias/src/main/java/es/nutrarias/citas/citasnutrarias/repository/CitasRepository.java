@@ -3,6 +3,7 @@ package es.nutrarias.citas.citasnutrarias.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import es.nutrarias.citas.citasnutrarias.entities.AreaCita;
 import es.nutrarias.citas.citasnutrarias.entities.Cita;
@@ -26,9 +27,8 @@ public interface CitasRepository extends JpaRepository<Cita, String> {
 	// Metodo propio para buscar por area
 	public List<Cita> findByArea(AreaCita area);
 
-//	// Usuarios
-//	// Metodo propio para buscar por telefono
-//	public List<Cita> findByTelefono(String telefono);
-
+	//	 Usuarios
+	@Query(value = "SELECT * FROM CITAS WHERE cliente = ?1", nativeQuery = true)
+	public List<Cita> findByIdCliente(String idCliente);
 
 }

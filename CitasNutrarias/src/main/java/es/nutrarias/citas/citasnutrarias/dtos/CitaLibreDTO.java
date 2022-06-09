@@ -2,6 +2,7 @@ package es.nutrarias.citas.citasnutrarias.dtos;
 
 import java.time.LocalDateTime;
 
+import es.nutrarias.citas.citasnutrarias.entities.AreaCita;
 import es.nutrarias.citas.citasnutrarias.entities.Cita;
 
 public class CitaLibreDTO {
@@ -10,8 +11,7 @@ public class CitaLibreDTO {
 	private LocalDateTime fullfecha;
 	private String fecha;
 	private String hora;
-	private String area;
-	private boolean disponible;
+	private AreaCita area;
 	
 	public CitaLibreDTO() {}
 	
@@ -20,8 +20,7 @@ public class CitaLibreDTO {
 		this.fullfecha = c.getFullfecha();
 		this.fecha = c.getFecha();
 		this.hora = c.getHora();
-		this.area = c.getArea().toString();
-		this.disponible = c.isDisponible();
+		this.area = c.getArea();
 	}
 
 	public String getIdcita() {
@@ -40,12 +39,8 @@ public class CitaLibreDTO {
 		return hora;
 	}
 
-	public String getArea() {
+	public AreaCita getArea() {
 		return area;
-	}
-
-	public boolean isDisponible() {
-		return disponible;
 	}
 
 	public void setIdcita(String idcita) {
@@ -64,12 +59,8 @@ public class CitaLibreDTO {
 		this.hora = hora;
 	}
 
-	public void setArea(String area) {
+	public void setArea(AreaCita area) {
 		this.area = area;
-	}
-
-	public void setDisponible(boolean disponible) {
-		this.disponible = disponible;
 	}
 
 }

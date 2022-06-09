@@ -1,9 +1,12 @@
 package es.nutrarias.citas.citasnutrarias.entities;
 
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "clientes")
 public class Cliente {
 
 	@Id
@@ -12,10 +15,7 @@ public class Cliente {
 	private String nombre;
 	private String apellidos;
 
-	
-	
-	public Cliente() {
-	}
+	public Cliente() {}
 	
 	public Cliente(String email, String nombre, String apellidos, String telefono) {
 		this.email = email;

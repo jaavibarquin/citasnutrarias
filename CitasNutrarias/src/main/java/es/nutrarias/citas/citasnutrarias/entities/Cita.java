@@ -3,14 +3,15 @@ package es.nutrarias.citas.citasnutrarias.entities;
 
 import java.time.LocalDateTime;
 
-
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.lang.NonNull;
 
 
 
@@ -20,13 +21,19 @@ public class Cita {
 	
 	@Id
 	private String idcita;
+	@NonNull
 	private LocalDateTime fullfecha;
+	@NonNull
 	private String fecha;
+	@NonNull
 	private String hora;
 	@Enumerated(EnumType.STRING)
+	@NonNull
 	private AreaCita area;
-	@Embedded
+	@ManyToOne
+	@JoinColumn(name = "cliente", nullable = true)
 	private Cliente cliente;
+	@NonNull
 	private boolean disponible;
 	
 	public Cita() {}
