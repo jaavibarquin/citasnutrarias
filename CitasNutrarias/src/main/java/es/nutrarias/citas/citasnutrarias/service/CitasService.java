@@ -1,5 +1,9 @@
 package es.nutrarias.citas.citasnutrarias.service;
 
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +93,27 @@ public class CitasService {
 			return clientesRepo.save(cliente);
 		} else return null;
 	}
+	
+	public void addCitasLibres(LocalDate fecha) {
+		for(AreaCita area: AreaCita.values()) {
+			this.citasRepo.addCitasLibres(fecha.toString(), area.toString());
+		}
+		
+	}
+
+	public void desactivaCitasPrevias(LocalDateTime fecha) {
+		System.out.println("Desactivar citas previas a fecha: " + fecha.toString());
+		this.citasRepo.desactivaCitasPrevias(fecha.toString());
+		
+	}
+
+	public void desactivaCitasProximas(LocalDateTime fecha) {
+		System.out.println("Desactivar citas proximas a fecha: " + fecha.toString());
+		this.citasRepo.desactivaCitasProximas(fecha.toString());
+		
+	}
+
+
 
 
 
