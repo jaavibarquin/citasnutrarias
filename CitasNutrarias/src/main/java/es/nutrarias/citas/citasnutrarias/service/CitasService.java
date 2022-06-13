@@ -23,6 +23,11 @@ public class CitasService {
 
 	@Autowired
 	private ClientesRepository clientesRepo;
+	
+	@Autowired 
+	EmailSenderService emailService;
+	
+	
 
 	// Libres
 	public List<Cita> citasLibresPorAreaYFecha(AreaCita area, String fecha) {
@@ -69,6 +74,7 @@ public class CitasService {
 					clientesRepo.save(cli);
 				}
 				cita.setDisponible(false);
+				emailService.enviaEmail(cita.getCliente().getEmail(), cita);
 			}
 			return citasRepo.save(cita);
 		} else return null;
