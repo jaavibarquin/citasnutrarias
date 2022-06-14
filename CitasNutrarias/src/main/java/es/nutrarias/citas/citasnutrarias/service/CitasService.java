@@ -26,10 +26,9 @@ public class CitasService {
 
 	@Autowired
 	private ClientesRepository clientesRepo;
-	
-	@Autowired 
-	EmailSenderService emailService;
-	
+
+	@Autowired
+	private EmailSenderService emailService;
 	
 
 	// Libres
