@@ -1,10 +1,13 @@
 package es.nutrarias.citas.citasnutrarias.service;
 
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,7 +77,13 @@ public class CitasService {
 					clientesRepo.save(cli);
 				}
 				cita.setDisponible(false);
-				emailService.enviaEmail(cita.getCliente().getEmail(), cita);
+				try {
+					emailService.enviaEmail(cita.getCliente().getEmail(), cita);
+				} catch (UnsupportedEncodingException | MessagingException e) {
+					System.out.println("Error al enviar el correo");
+					e.printStackTrace();
+					return null;
+				}
 			}
 			return citasRepo.save(cita);
 		} else return null;
