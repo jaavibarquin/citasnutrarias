@@ -16,16 +16,12 @@ import es.nutrarias.citas.citasnutrarias.entities.AreaCita;
 import es.nutrarias.citas.citasnutrarias.entities.Cita;
 import es.nutrarias.citas.citasnutrarias.entities.Cliente;
 import es.nutrarias.citas.citasnutrarias.repository.CitasRepository;
-import es.nutrarias.citas.citasnutrarias.repository.ClientesRepository;
 
 @Service
 public class CitasService {
 
 	@Autowired
 	private CitasRepository citasRepo;
-
-	@Autowired
-	private ClientesRepository clientesRepo;
 
 	@Autowired
 	private EmailSenderService emailService;
@@ -72,9 +68,6 @@ public class CitasService {
 		if (cita != null) {
 			Cliente cli = cita.getCliente();
 			if (cli != null) {
-				if(!clientesRepo.existsById(cli.getTelefono())) {
-					clientesRepo.save(cli);
-				}
 				cita.setDisponible(false);
 				try {
 					emailService.enviaEmail(cita.getCliente().getEmail(), cita);
@@ -85,26 +78,6 @@ public class CitasService {
 				}
 			}
 			return citasRepo.save(cita);
-		} else return null;
-	}
-
-	// Cliente
-	public Cliente buscaCliente(String idCliente) {
-		if (idCliente == null) {
-			return null;
-		}
-		return clientesRepo.findById(idCliente).orElse(null);
-	}
-
-	public Cliente modificaCliente(Cliente cliente) {
-		if (cliente != null) {
-			return clientesRepo.save(cliente);
-		} else return null;
-	}
-
-	public Cliente anhadeCliente(Cliente cliente) {
-		if (cliente != null) {
-			return clientesRepo.save(cliente);
 		} else return null;
 	}
 	
@@ -126,6 +99,11 @@ public class CitasService {
 		this.citasRepo.desactivaCitasProximas(fecha.toString());
 		
 	}
+
+	public boolean existeCliente(String idCliente) {
+		return (!this.citasRepo.findByIdCliente(idCliente).isEmpty());
+	}
+	
 
 
 

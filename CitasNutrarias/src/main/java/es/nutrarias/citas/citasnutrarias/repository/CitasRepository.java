@@ -30,9 +30,11 @@ public interface CitasRepository extends JpaRepository<Cita, String> {
 	public List<Cita> findByArea(AreaCita area);
 
 	//	 Usuarios
-	@Query(value = "SELECT * FROM CITAS WHERE cliente = ?1", nativeQuery = true)
+	@Query(value = "SELECT * FROM CITAS WHERE telefono = ?1", nativeQuery = true)
 	public List<Cita> findByIdCliente(String idCliente);
 	
+	
+	// Procedimientos
 	@Procedure
 	public void addCitasLibres(@Param("fecha") String fecha, @Param("narea") String narea);
 	
