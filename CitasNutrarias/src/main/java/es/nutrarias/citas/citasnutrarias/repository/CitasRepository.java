@@ -29,7 +29,7 @@ public interface CitasRepository extends JpaRepository<Cita, String> {
 	// Metodo propio para buscar por area
 	public List<Cita> findByArea(AreaCita area);
 
-	//	 Usuarios
+	//	 Usuario
 	@Query(value = "SELECT * FROM CITAS WHERE telefono = ?1", nativeQuery = true)
 	public List<Cita> findByIdCliente(String idCliente);
 	

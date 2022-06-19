@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,12 +33,6 @@ public class CitasController {
 	@Autowired
 	private CitasService citasService;
 
-	@GetMapping("/authenticate")
-	public String getToken() {
-		String token = "";
-		return token;
-	}
-
 	@GetMapping()
 	public ResponseEntity<List<CitaDTO>> getAllCitas(){
 		List<Cita> allCitas = citasService.getAllCitas();
@@ -48,6 +43,7 @@ public class CitasController {
 		return ResponseEntity.notFound().build();
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/citas/{area}")
 	public ResponseEntity<List<CitaDTO>> getCitasArea(@PathVariable AreaCita area, @RequestParam(required = false) String fecha) {
 		if (!compruebaArea(area)) {
@@ -111,6 +107,7 @@ public class CitasController {
 		return ResponseEntity.notFound().build();
 	}
 
+	
 	@GetMapping("/citas/busca-cita/{idCita}")
 	public ResponseEntity<CitaDTO> getCitaByID(@PathVariable String idCita){
 		Cita cita = citasService.citaPorId(idCita);
@@ -136,7 +133,7 @@ public class CitasController {
 		return ResponseEntity.status(HttpStatus.CONFLICT).build();
 	}
 
-
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/clientes/{idCliente}/citas")
 	public ResponseEntity<List<CitaDTO>> getCitasByIdCliente(@PathVariable String idCliente){
 		
