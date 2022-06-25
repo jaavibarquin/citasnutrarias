@@ -3,6 +3,8 @@ package es.nutrarias.citas.citasnutrarias.cron;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,13 +17,10 @@ public class TasksScheduler {
 	@Autowired
 	private CitasService citasSvc;
 
-//	@Scheduled(cron = "*/10 * * * * *")
-//	public void desactivaCitas() {
-//		long now = System.currentTimeMillis()/1000;
-//		LocalDateTime ahora = LocalDateTime.now();
-//		System.out.println("Desactiva tareas cuya fecha sea mas tarde de: " + ahora.format(DateTimeFormatter.ISO_DATE_TIME));
-//		System.out.println(": " + now);
-//	}
+	@PostConstruct
+	public void alArrancar() {
+		this.desactivaCitasPrevias();
+	}
 	
 	@Scheduled(cron = "@daily")
 	public void creaCitas() {

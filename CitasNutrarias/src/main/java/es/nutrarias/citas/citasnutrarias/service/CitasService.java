@@ -42,11 +42,11 @@ public class CitasService {
 	}
 
 	public List<Cita> citasPorAreaYFecha(AreaCita area, String fecha){
-		return citasRepo.findByAreaAndFecha(area, fecha);
+		return citasRepo.findByAreaAndFechaAndClienteNotNull(area, fecha);
 	}
 
 	public List<Cita> citasPorArea(AreaCita area) {
-		return citasRepo.findByArea(area);
+		return citasRepo.findByAreaAndClienteNotNull(area);
 	}
 
 	public Cita citaPorId(String id) {
@@ -56,6 +56,9 @@ public class CitasService {
 
 	public List<Cita> getAllCitas() {
 		return citasRepo.findAll();
+	}
+	public List<Cita> getAllCitasPorFecha(String fecha) {
+		return citasRepo.findByFecha(fecha);
 	}
 
 
@@ -103,6 +106,7 @@ public class CitasService {
 	public boolean existeCliente(String idCliente) {
 		return (!this.citasRepo.findByIdCliente(idCliente).isEmpty());
 	}
+
 	
 
 

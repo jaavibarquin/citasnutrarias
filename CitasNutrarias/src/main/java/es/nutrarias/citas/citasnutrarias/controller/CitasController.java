@@ -5,7 +5,6 @@ package es.nutrarias.citas.citasnutrarias.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,15 +32,6 @@ public class CitasController {
 	@Autowired
 	private CitasService citasService;
 
-	@GetMapping()
-	public ResponseEntity<List<CitaDTO>> getAllCitas(){
-		List<Cita> allCitas = citasService.getAllCitas();
-		List<CitaDTO> listaCitas = new ListaCitasDTO(allCitas).getListaCitas();
-		if ( listaCitas != null) {
-			return ResponseEntity.ok(listaCitas);
-		}
-		return ResponseEntity.notFound().build();
-	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/citas/{area}")
@@ -50,7 +40,7 @@ public class CitasController {
 			return ResponseEntity.badRequest().build();
 		}
 		List<Cita> lista;
-		if (fecha == null) {
+		if (fecha == null || fecha.isEmpty()) {
 			lista = citasService.citasPorArea(area);
 		} else {
 			lista = citasService.citasPorAreaYFecha(area, fecha);
@@ -107,32 +97,6 @@ public class CitasController {
 		return ResponseEntity.notFound().build();
 	}
 
-	
-	@GetMapping("/citas/busca-cita/{idCita}")
-	public ResponseEntity<CitaDTO> getCitaByID(@PathVariable String idCita){
-		Cita cita = citasService.citaPorId(idCita);
-		if (cita != null) {
-			CitaDTO cDTO = new CitaDTO(cita);
-			return ResponseEntity.ok(cDTO);
-		}
-		return ResponseEntity.notFound().build();
-	}
-
-	@PutMapping("/citas/busca-cita/{idCita}")
-	public ResponseEntity<CitaDTO> actualizaCitaByID(@RequestBody CitaDTO citaDTO, @PathVariable String idCita){
-		Cita citaPorID = citasService.citaPorId(idCita);
-		if (citaPorID == null) {
-			return ResponseEntity.notFound().build();
-		}
-		Cita cita = citaDTO.transformToCita();
-		Cita citaModif = citasService.modificaCita(cita);
-		if (citaModif != null) {
-			citaDTO = new CitaDTO(citaModif);
-			return ResponseEntity.ok(citaDTO);
-		}
-		return ResponseEntity.status(HttpStatus.CONFLICT).build();
-	}
-
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/clientes/{idCliente}/citas")
 	public ResponseEntity<List<CitaDTO>> getCitasByIdCliente(@PathVariable String idCliente){
@@ -151,41 +115,5 @@ public class CitasController {
 		return (area.toString().equals("ENTR") || area.toString().equals("NUTR") || area.toString().equals("PSIC")); 	
 	}
 
-//	@GetMapping("/clientes/{idCliente}")
-//	public ResponseEntity<Cliente> getCliente(@PathVariable String idCliente) 
-//	{
-//		Cliente cli = citasService.buscaCliente(idCliente);
-//		if (cli != null) {
-//			return ResponseEntity.ok(cli);
-//		} else {
-//			return ResponseEntity.notFound().build();
-//		}
-//	}
-//
-//	@PutMapping("/clientes/{idCliente}")
-//	public ResponseEntity<Cliente> guardaCliente(@PathVariable String idCliente, @RequestBody Cliente cliente) 
-//	{
-//		if (idCliente.isEmpty() || cliente == null) {
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cliente);
-//		}
-//		Cliente cli = citasService.buscaCliente(idCliente);
-//		if (cli == null) {
-//			Cliente cliCreado = citasService.anhadeCliente(cliente);
-//			if (cliCreado != null) {
-//				URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-//				return ResponseEntity.created(location).body(cliCreado);
-//			} else {
-//				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cliente);
-//			}
-//		} else {
-//			Cliente cliModif = citasService.modificaCliente(cliente);
-//			if (cliModif != null) {
-//				return ResponseEntity.ok(cliModif);
-//			} else {
-//				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cliente);
-//			}
-//
-//		}
-//	}
 
 }
