@@ -3,7 +3,6 @@ package es.nutrarias.citas.citasnutrarias.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
@@ -22,8 +21,6 @@ public interface CitasRepository extends JpaRepository<Cita, String> {
 	public List<Cita> findByAreaAndDisponibleTrue(AreaCita area);
 	
 	// Globales
-	public List<Cita> findByFecha(String fecha);
-	
 	// Metodo propio para buscar por fecha y hora y area
 	public Cita findByAreaAndFechaAndHora(AreaCita area, String fecha, String hora);
 
@@ -35,8 +32,8 @@ public interface CitasRepository extends JpaRepository<Cita, String> {
 	public List<Cita> findByAreaAndClienteNotNull(AreaCita area);	
 
 	//	 Usuario
-	@Query(value = "SELECT * FROM CITAS WHERE telefono = ?1", nativeQuery = true)
-	public List<Cita> findByIdCliente(String idCliente);
+//	@Query(value = "SELECT * FROM CITAS WHERE telefono = ?1", nativeQuery = true)
+//	public List<Cita> findByIdCliente(String idCliente);
 	
 	
 	// Procedimientos

@@ -74,7 +74,8 @@ public class CitasController {
 	}
 	
 	@GetMapping("/citas/{area}/{fecha}/{hora}")
-	public ResponseEntity<CitaDTO> getCitaByFecha(@PathVariable AreaCita area, @PathVariable String fecha, @PathVariable String hora){
+	public ResponseEntity<CitaDTO> getCitaByFecha(@PathVariable AreaCita area, 
+			@PathVariable String fecha, @PathVariable String hora){
 		Cita cita = citasService.citaPorAreaDiaYHora(area, fecha, hora);
 		if (cita != null) {
 			CitaDTO cDTO = new CitaDTO(cita);
@@ -84,7 +85,8 @@ public class CitasController {
 	}
 	
 	@PutMapping("/citas/{area}/{fecha}/{hora}")
-	public ResponseEntity<CitaDTO> modificaCitaByFecha(@PathVariable AreaCita area, @PathVariable String fecha, @PathVariable String hora, @RequestBody CitaDTO citaDTO){
+	public ResponseEntity<CitaDTO> modificaCitaByFecha(@PathVariable AreaCita area,
+			@PathVariable String fecha, @PathVariable String hora, @RequestBody CitaDTO citaDTO){
 		if (citaDTO == null) {
 			return ResponseEntity.badRequest().body(citaDTO);
 		}
@@ -97,19 +99,19 @@ public class CitasController {
 		return ResponseEntity.notFound().build();
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/clientes/{idCliente}/citas")
-	public ResponseEntity<List<CitaDTO>> getCitasByIdCliente(@PathVariable String idCliente){
-		
-		if (citasService.existeCliente(idCliente)) {
-			List<Cita> listaCitas = citasService.citasPorCliente(idCliente);
-			if (listaCitas != null) {
-				List<CitaDTO> listaDTO = new ListaCitasDTO(listaCitas).getListaCitas();
-				return ResponseEntity.ok(listaDTO);
-			}
-		}
-		return ResponseEntity.notFound().build();
-	}
+//	@PreAuthorize("hasRole('ADMIN')")
+//	@GetMapping("/clientes/{idCliente}/citas")
+//	public ResponseEntity<List<CitaDTO>> getCitasByIdCliente(@PathVariable String idCliente){
+//		
+//		if (citasService.existeCliente(idCliente)) {
+//			List<Cita> listaCitas = citasService.citasPorCliente(idCliente);
+//			if (listaCitas != null) {
+//				List<CitaDTO> listaDTO = new ListaCitasDTO(listaCitas).getListaCitas();
+//				return ResponseEntity.ok(listaDTO);
+//			}
+//		}
+//		return ResponseEntity.notFound().build();
+//	}
 
 	private boolean compruebaArea (AreaCita area) {
 		return (area.toString().equals("ENTR") || area.toString().equals("NUTR") || area.toString().equals("PSIC")); 	

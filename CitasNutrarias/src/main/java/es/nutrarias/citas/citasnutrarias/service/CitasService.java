@@ -49,22 +49,10 @@ public class CitasService {
 		return citasRepo.findByAreaAndClienteNotNull(area);
 	}
 
-	public Cita citaPorId(String id) {
-		return citasRepo.findById(id).orElse(null);
-	}
 
-
-	public List<Cita> getAllCitas() {
-		return citasRepo.findAll();
-	}
-	public List<Cita> getAllCitasPorFecha(String fecha) {
-		return citasRepo.findByFecha(fecha);
-	}
-
-
-	public List<Cita> citasPorCliente(String idCliente) {
-		return citasRepo.findByIdCliente(idCliente);
-	}
+//	public List<Cita> citasPorCliente(String idCliente) {
+//		return citasRepo.findByIdCliente(idCliente);
+//	}
 
 
 	public Cita modificaCita(Cita cita) {
@@ -103,9 +91,9 @@ public class CitasService {
 		
 	}
 
-	public boolean existeCliente(String idCliente) {
-		return (!this.citasRepo.findByIdCliente(idCliente).isEmpty());
-	}
+//	public boolean existeCliente(String idCliente) {
+//		return (!this.citasRepo.findByIdCliente(idCliente).isEmpty());
+//	}
 
 	
 
