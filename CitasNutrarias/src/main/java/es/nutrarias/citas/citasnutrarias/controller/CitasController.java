@@ -25,7 +25,7 @@ import es.nutrarias.citas.citasnutrarias.entities.Cita;
 import es.nutrarias.citas.citasnutrarias.service.CitasService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://nutrarias.es"})
 @RequestMapping("/nutrarias")
 public class CitasController {
 
@@ -98,20 +98,6 @@ public class CitasController {
 		}
 		return ResponseEntity.notFound().build();
 	}
-
-//	@PreAuthorize("hasRole('ADMIN')")
-//	@GetMapping("/clientes/{idCliente}/citas")
-//	public ResponseEntity<List<CitaDTO>> getCitasByIdCliente(@PathVariable String idCliente){
-//		
-//		if (citasService.existeCliente(idCliente)) {
-//			List<Cita> listaCitas = citasService.citasPorCliente(idCliente);
-//			if (listaCitas != null) {
-//				List<CitaDTO> listaDTO = new ListaCitasDTO(listaCitas).getListaCitas();
-//				return ResponseEntity.ok(listaDTO);
-//			}
-//		}
-//		return ResponseEntity.notFound().build();
-//	}
 
 	private boolean compruebaArea (AreaCita area) {
 		return (area.toString().equals("ENTR") || area.toString().equals("NUTR") || area.toString().equals("PSIC")); 	

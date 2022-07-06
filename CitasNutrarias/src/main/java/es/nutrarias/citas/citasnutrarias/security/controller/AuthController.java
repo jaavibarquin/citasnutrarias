@@ -19,7 +19,7 @@ import es.nutrarias.citas.citasnutrarias.security.jwt.JWTProvider;
 import es.nutrarias.citas.citasnutrarias.service.UsuarioService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/nutrarias/auth")
 @CrossOrigin
 public class AuthController {
 	
@@ -32,7 +32,7 @@ public class AuthController {
 	@Autowired
 	JWTProvider jwtProvider;
 	
-	@PostMapping("/getToken")
+	@PostMapping("/token")
 	public ResponseEntity<JwtDTO> getToken(@RequestBody UsuarioDTO userDTO) {
 		if (userDTO == null) {
 			return ResponseEntity.badRequest().build();
