@@ -21,8 +21,8 @@ public class FirebaseInitializer {
 		InputStream serviceAccount = getClass().getClassLoader()
 				.getResourceAsStream("nutrariashealth-firebase-adminsdk.json");
 
-		@SuppressWarnings("deprecation")
-		FirebaseOptions options = new FirebaseOptions.Builder()
+		
+		FirebaseOptions options = FirebaseOptions.builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 				.setDatabaseUrl("https://nutrariashealth.firebaseio.com")
 				.build();
