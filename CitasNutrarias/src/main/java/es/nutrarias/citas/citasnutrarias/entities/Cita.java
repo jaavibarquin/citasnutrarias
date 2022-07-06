@@ -3,13 +3,15 @@ package es.nutrarias.citas.citasnutrarias.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Column;
 
 import org.springframework.lang.NonNull;
 
@@ -30,8 +32,14 @@ public class Cita {
 	@Enumerated(EnumType.STRING)
 	@NonNull
 	private AreaCita area;
-	@ManyToOne
-	@JoinColumn(name = "cliente", nullable = true)
+
+	@Embedded
+	@AttributeOverrides({
+		  @AttributeOverride( name = "nombre", column = @Column(name = "nombre")),
+		  @AttributeOverride( name = "apellidos", column = @Column(name = "apellidos")),
+		  @AttributeOverride( name = "telefono", column = @Column(name = "telefono")),
+		  @AttributeOverride( name = "email", column = @Column(name = "email"))
+		})
 	private Cliente cliente;
 	@NonNull
 	private boolean disponible;

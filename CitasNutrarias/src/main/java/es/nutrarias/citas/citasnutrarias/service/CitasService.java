@@ -1,6 +1,13 @@
 package es.nutrarias.citas.citasnutrarias.service;
 
+
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +16,6 @@ import es.nutrarias.citas.citasnutrarias.entities.AreaCita;
 import es.nutrarias.citas.citasnutrarias.entities.Cita;
 import es.nutrarias.citas.citasnutrarias.entities.Cliente;
 import es.nutrarias.citas.citasnutrarias.repository.CitasRepository;
-import es.nutrarias.citas.citasnutrarias.repository.ClientesRepository;
 
 @Service
 public class CitasService {
@@ -18,7 +24,8 @@ public class CitasService {
 	private CitasRepository citasRepo;
 
 	@Autowired
-	private ClientesRepository clientesRepo;
+	private EmailSenderService emailService;
+	
 
 	// Libres
 	public List<Cita> citasLibresPorAreaYFecha(AreaCita area, String fecha) {
@@ -35,57 +42,62 @@ public class CitasService {
 	}
 
 	public List<Cita> citasPorAreaYFecha(AreaCita area, String fecha){
-		return citasRepo.findByAreaAndFecha(area, fecha);
+		return citasRepo.findByAreaAndFechaAndClienteNotNull(area, fecha);
 	}
 
 	public List<Cita> citasPorArea(AreaCita area) {
-		return citasRepo.findByArea(area);
-	}
-
-	public Cita citaPorId(String id) {
-		return citasRepo.findById(id).orElse(null);
+		return citasRepo.findByAreaAndClienteNotNull(area);
 	}
 
 
-	public List<Cita> getAllCitas() {
-		return citasRepo.findAll();
-	}
-
-
-	public List<Cita> citasPorCliente(String idCliente) {
-		return citasRepo.findByIdCliente(idCliente);
-	}
+//	public List<Cita> citasPorCliente(String idCliente) {
+//		return citasRepo.findByIdCliente(idCliente);
+//	}
 
 
 	public Cita modificaCita(Cita cita) {
 		if (cita != null) {
 			Cliente cli = cita.getCliente();
 			if (cli != null) {
-				if(!clientesRepo.existsById(cli.getTelefono())) {
-					clientesRepo.save(cli);
-				}
 				cita.setDisponible(false);
+				try {
+					emailService.enviaEmail(cita.getCliente().getEmail(), cita);
+				} catch (UnsupportedEncodingException | MessagingException e) {
+					System.out.println("Error al enviar el correo");
+					e.printStackTrace();
+					return null;
+				}
 			}
 			return citasRepo.save(cita);
 		} else return null;
 	}
-
-	// Cliente
-	public Cliente buscaCliente(String idCliente) {
-		return clientesRepo.findById(idCliente).orElse(null);
+	
+	public void addCitasLibres(LocalDate fecha) {
+		for(AreaCita area: AreaCita.values()) {
+			this.citasRepo.addCitasLibres(fecha.toString(), area.toString());
+		}
+		
 	}
 
-	public Cliente modificaCliente(Cliente cliente) {
-		if (cliente != null) {
-			return clientesRepo.save(cliente);
-		} else return null;
+	public void desactivaCitasPrevias(LocalDateTime fecha) {
+		System.out.println("Desactivar citas previas a fecha: " + fecha.toString());
+		this.citasRepo.desactivaCitasPrevias(fecha.toString());
+		
 	}
 
-	public Cliente anhadeCliente(Cliente cliente) {
-		if (cliente != null) {
-			return clientesRepo.save(cliente);
-		} else return null;
+	public void desactivaCitasProximas(LocalDateTime fecha) {
+		System.out.println("Desactivar citas proximas a fecha: " + fecha.toString());
+		this.citasRepo.desactivaCitasProximas(fecha.toString());
+		
 	}
+
+//	public boolean existeCliente(String idCliente) {
+//		return (!this.citasRepo.findByIdCliente(idCliente).isEmpty());
+//	}
+
+	
+
+
 
 
 
