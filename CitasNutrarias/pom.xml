@@ -9,10 +9,10 @@
 		<version>2.6.7</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>es.nutrarias.citas</groupId>
-	<artifactId>CitasNutrarias</artifactId>
+	<groupId>es.nutrarias</groupId>
+	<artifactId>Citas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CitasNutrarias</name>
+	<name>CitasOnline</name>
 	<description>Servicio para solicitar citas online</description>
 	<properties>
 		<java.version>1.8</java.version>
