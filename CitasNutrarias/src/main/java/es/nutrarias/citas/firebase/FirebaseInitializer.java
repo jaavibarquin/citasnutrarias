@@ -14,17 +14,19 @@ import com.google.firebase.FirebaseOptions;
 
 @Service
 public class FirebaseInitializer {
+	
+	private static final String SECRET_SDK_KEY_PATH = "nutrariashealth-firebase-adminsdk.json";
+	private static final String FIRESTORE_DATABASE_URL = "https://nutrariashealth.firebaseio.com";
 
 	@PostConstruct
 	private void initFireStore() throws IOException {
 
 		InputStream serviceAccount = getClass().getClassLoader()
-				.getResourceAsStream("nutrariashealth-firebase-adminsdk.json");
+				.getResourceAsStream(SECRET_SDK_KEY_PATH);
 
-		
 		FirebaseOptions options = FirebaseOptions.builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				.setDatabaseUrl("https://nutrariashealth.firebaseio.com")
+				.setDatabaseUrl(FIRESTORE_DATABASE_URL)
 				.build();
 
 		FirebaseApp.initializeApp(options);
